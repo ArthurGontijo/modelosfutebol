@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Modelo Poisson Simples</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="modelo_baio_files/libs/clipboard/clipboard.min.js"></script>
+<script src="modelo_baio_files/libs/quarto-html/quarto.js"></script>
+<script src="modelo_baio_files/libs/quarto-html/popper.min.js"></script>
+<script src="modelo_baio_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="modelo_baio_files/libs/quarto-html/anchor.min.js"></script>
+<link href="modelo_baio_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="modelo_baio_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="modelo_baio_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="modelo_baio_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="modelo_baio_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="modelo_baio_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="modelo_baio_files/libs/plotly-binding-4.10.2/plotly.js"></script>
+<script src="modelo_baio_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="modelo_baio_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="modelo_baio_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="modelo_baio_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="modelo_baio_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="modelo_baio_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modelo Poisson Simples</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="importanto-as-bibliotecas-necessárias" class="level2">
+<h2 class="anchored" data-anchor-id="importanto-as-bibliotecas-necessárias">Importanto as bibliotecas necessárias</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(plotly)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(knitr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(rstan)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(reshape2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="gerando-os-jogos" class="level2">
+<h2 class="anchored" data-anchor-id="gerando-os-jogos">Gerando os jogos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>num_teams <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">h =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>num_teams, <span class="at">each =</span> num_teams),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>num_teams, <span class="at">times =</span> num_teams)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> games[games<span class="sc">$</span>h <span class="sc">!=</span> games<span class="sc">$</span>a, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="definindo-os-valores-reais" class="level2">
+<h2 class="anchored" data-anchor-id="definindo-os-valores-reais">Definindo os valores reais</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">40</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Utilizando os valores encontrados no artigo</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>home_effect <span class="ot">&lt;-</span> <span class="fl">0.2124</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>att_effects <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2238</span>, <span class="sc">-</span><span class="fl">0.1288</span>, <span class="sc">-</span><span class="fl">0.2199</span>, <span class="sc">-</span><span class="fl">0.1468</span>, <span class="sc">-</span><span class="fl">0.1974</span>, <span class="fl">0.1173</span>, <span class="fl">0.3464</span>, <span class="sc">-</span><span class="fl">0.0435</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                 <span class="sc">-</span><span class="fl">0.2077</span>, <span class="fl">0.1214</span>, <span class="fl">0.0855</span>, <span class="fl">0.5226</span>, <span class="fl">0.2982</span>, <span class="sc">-</span><span class="fl">0.1208</span>, <span class="sc">-</span><span class="fl">0.0224</span>, <span class="sc">-</span><span class="fl">0.0096</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                 <span class="fl">0.0824</span>, <span class="sc">-</span><span class="fl">0.2532</span>, <span class="fl">0.0923</span>, <span class="sc">-</span><span class="fl">0.1189</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>def_effects <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.4776</span>, <span class="sc">-</span><span class="fl">0.0849</span>, <span class="fl">0.1719</span>, <span class="sc">-</span><span class="fl">0.0656</span>, <span class="fl">0.1915</span>, <span class="fl">0.0672</span>, <span class="fl">0.3701</span>, <span class="fl">0.1700</span>, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                <span class="sc">-</span><span class="fl">0.2061</span>, <span class="sc">-</span><span class="fl">0.3348</span>, <span class="fl">0.0722</span>, <span class="sc">-</span><span class="fl">0.3349</span>, <span class="fl">0.0668</span>, <span class="sc">-</span><span class="fl">0.2038</span>, <span class="sc">-</span><span class="fl">0.1358</span>, <span class="sc">-</span><span class="fl">0.1333</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                <span class="sc">-</span><span class="fl">0.4141</span>, <span class="fl">0.3259</span>, <span class="fl">0.1123</span>, <span class="sc">-</span><span class="fl">0.1554</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><span class="math inline">\(home\)</span> = 0.2124</li>
+</ul>
+<p>Esses foram os efeitos de ataque e defesa escolhidos:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ff76abadec111a41b72c" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ff76abadec111a41b72c">{"x":{"data":[{"x":[-0.2238,-0.1288,-0.21990000000000001,-0.14680000000000001,-0.19739999999999999,0.1173,0.34639999999999999,-0.043499999999999997,-0.2077,0.12139999999999999,0.085500000000000007,0.52259999999999995,0.29820000000000002,-0.1208,-0.0224,-0.0095999999999999992,0.082400000000000001,-0.25319999999999998,0.092299999999999993,-0.11890000000000001],"y":[0.47760000000000002,-0.084900000000000003,0.1719,-0.065600000000000006,0.1915,0.067199999999999996,0.37009999999999998,0.17000000000000001,-0.20610000000000001,-0.33479999999999999,0.0722,-0.33489999999999998,0.066799999999999998,-0.20380000000000001,-0.1358,-0.1333,-0.41410000000000002,0.32590000000000002,0.1123,-0.15540000000000001],"text":["Time 1","Time 2","Time 3","Time 4","Time 5","Time 6","Time 7","Time 8","Time 9","Time 10","Time 11","Time 12","Time 13","Time 14","Time 15","Time 16","Time 17","Time 18","Time 19","Time 20"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.29198999999999997,0.56138999999999994],"y":[0,0],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(255,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0,0],"y":[-0.45868500000000001,0.52218500000000001],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(255,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.29198999999999997,0.56138999999999994],"tickmode":"array","ticktext":["-0.2","0.0","0.2","0.4"],"tickvals":[-0.20000000000000001,0,0.20000000000000001,0.40000000000000013],"categoryorder":"array","categoryarray":["-0.2","0.0","0.2","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Efeito de Ataque","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.45868500000000001,0.52218500000000001],"tickmode":"array","ticktext":["-0.25","0.00","0.25","0.50"],"tickvals":[-0.25,0,0.25,0.5],"categoryorder":"array","categoryarray":["-0.25","0.00","0.25","0.50"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Efeito de Defesa","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"1f806e433736":{"x":{},"y":{},"text":{},"type":"scatter"},"1f8014f775db":{"yintercept":{}},"1f8038e8204":{"xintercept":{}}},"cur_data":"1f806e433736","visdat":{"1f806e433736":["function (y) ","x"],"1f8014f775db":["function (y) ","x"],"1f8038e8204":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="gerando-os-resultados-dos-jogos" class="level2">
+<h2 class="anchored" data-anchor-id="gerando-os-resultados-dos-jogos">Gerando os resultados dos jogos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">40</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>simulate_game <span class="ot">&lt;-</span> <span class="cf">function</span>(home_team, away_team){</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  theta_1 <span class="ot">&lt;-</span> home_effect <span class="sc">+</span> att_effects[home_team] <span class="sc">+</span> def_effects[away_team]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  theta_2 <span class="ot">&lt;-</span> att_effects[away_team] <span class="sc">+</span> def_effects[home_team]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  y1 <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">1</span>, <span class="fu">exp</span>(theta_1))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  y2 <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">1</span>, <span class="fu">exp</span>(theta_2))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(y1, y2))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>num_games <span class="ot">&lt;-</span> <span class="fu">length</span>(games<span class="sc">$</span>h)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Tapa buracos enquanto os resultados nao sao gerados</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>games<span class="sc">$</span>y1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, num_games)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>games<span class="sc">$</span>y2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, num_games)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_games){</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  home_team <span class="ot">&lt;-</span> games[i, ]<span class="sc">$</span>h</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  away_team <span class="ot">&lt;-</span> games[i, ]<span class="sc">$</span>a</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">simulate_game</span>(home_team, away_team)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  games[i, ]<span class="sc">$</span>y1 <span class="ot">&lt;-</span> result[<span class="dv">1</span>]</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  games[i, ]<span class="sc">$</span>y2 <span class="ot">&lt;-</span> result[<span class="dv">2</span>]</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alguns dos resultados gerados foram:</p>
+<div style="margin-left: 20px; margin-right: 20px">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Mandante</th>
+<th style="text-align: center;">Visitante</th>
+<th style="text-align: center;">Gols_do_Mandante</th>
+<th style="text-align: center;">Gols_do_Visitante</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="análise-dos-resultados-gerados" class="level2">
+<h2 class="anchored" data-anchor-id="análise-dos-resultados-gerados">Análise dos resultados gerados</h2>
+<p>Alguns resultados que nos dão uma visão geral dos dados são:</p>
+<ul>
+<li>O time com o melhor ataque da competição foi o <strong>Time 12</strong> balançando as redes <strong>76 vezes</strong>.</li>
+<li>O time com o pior ataque da competição foi o <strong>Time 9</strong> marcando <strong>26 gols</strong>.</li>
+<li>O time com a melhor defesa da competição foi o <strong>Time 9</strong> tendo sofrido um total de <strong>22 gols</strong>.</li>
+<li>O time com a pior defesa da competição foi o <strong>Time 7</strong> tendo sofrido um total de <strong>63 gols</strong>.</li>
+<li>A maior goleada do campeonato foi a vitória do <strong>Time 10</strong> por <strong>5 a 0</strong> em cima do <strong>Time 1</strong></li>
+<li>O <strong>Time 12</strong> foi o campeão com <strong>83 pontos</strong></li>
+<li>O <strong>Time 1</strong> foi o lanterna com <strong>27 pontos</strong></li>
+<li>O <strong>Time 3</strong> foi o primeiro time fora da zona, se salvando do rebaixamento com <strong>45 pontos</strong></li>
+</ul>
+<details>
+<summary>
+Clique para ver a tabela do campeonato completa
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Posicao</th>
+<th style="text-align: center;">Time</th>
+<th style="text-align: center;">Pontos</th>
+<th style="text-align: center;">Vitorias</th>
+<th style="text-align: center;">Empates</th>
+<th style="text-align: center;">Derrotas</th>
+<th style="text-align: center;">GM</th>
+<th style="text-align: center;">GS</th>
+<th style="text-align: center;">SG</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Time 12</td>
+<td style="text-align: center;">83</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">76</td>
+<td style="text-align: center;">48</td>
+<td style="text-align: center;">28</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">Time 17</td>
+<td style="text-align: center;">66</td>
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">51</td>
+<td style="text-align: center;">27</td>
+<td style="text-align: center;">24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">Time 13</td>
+<td style="text-align: center;">61</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">67</td>
+<td style="text-align: center;">57</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">Time 10</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">Time 20</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">Time 15</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">Time 7</td>
+<td style="text-align: center;">57</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">63</td>
+<td style="text-align: center;">63</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">Time 19</td>
+<td style="text-align: center;">56</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">51</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">Time 6</td>
+<td style="text-align: center;">55</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">Time 2</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">Time 16</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">Time 5</td>
+<td style="text-align: center;">51</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">-2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">Time 14</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">Time 4</td>
+<td style="text-align: center;">47</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">Time 11</td>
+<td style="text-align: center;">47</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">Time 3</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">Time 8</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">Time 9</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">26</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">Time 18</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">29</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">-2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">Time 1</td>
+<td style="text-align: center;">27</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">27</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">-15</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
+</section>
+<section id="estimando-os-parâmetros-com-o-stan" class="level2">
+<h2 class="anchored" data-anchor-id="estimando-os-parâmetros-com-o-stan">Estimando os parâmetros com o STAN</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Código no R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Código no STAN</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell" data-hash="modelo_baio_cache/html/unnamed-chunk-12_65988b116b03b060490c50328816f478">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">append</span>(<span class="fu">list</span>(<span class="at">ngames =</span> num_games, <span class="at">nteams =</span> num_teams), <span class="fu">as.list</span>(games))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">stan_model</span>(<span class="st">"./models/model.stan"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sampling</span>(model, <span class="at">data =</span> data, <span class="at">iter =</span> <span class="dv">10000</span>, <span class="at">chains =</span> <span class="dv">8</span>, <span class="at">cores =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There were 25 divergent transitions after warmup. See
+https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+to find out why this is a problem and how to eliminate them.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There were 13267 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+https://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The largest R-hat is 2.36, indicating chains have not mixed.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#r-hat</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#bulk-ess</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#tail-ess</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<div class="sourceCode" id="cb12"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; ngames;       </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; nteams;       </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> h[ngames];             </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> a[ngames];             </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> y1[ngames];            </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> y2[ngames];            </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> home;                 </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[nteams] att_star;   </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[nteams] def_star;  </span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu_att;            </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu_def;               </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; tau_att;    </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; tau_def;     </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="kw">transformed parameters</span> {</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[nteams] att;        </span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[nteams] def;        </span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span>:nteams) {</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    att[t] = att_star[t] - mean(att_star);</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    def[t] = def_star[t] - mean(def_star);</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (g <span class="cf">in</span> <span class="dv">1</span>:ngames) {</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    y1[g] ~ poisson_log(home + att[h[g]] + def[a[g]]);</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    y2[g] ~ poisson_log(att[a[g]] + def[h[g]]);</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>  home ~ normal(<span class="dv">0</span>, sqrt(<span class="dv">1</span>/<span class="fl">0.0001</span>));</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  mu_att ~ normal(<span class="dv">0</span>, sqrt(<span class="dv">1</span>/<span class="fl">0.0001</span>));</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>  mu_def ~ normal(<span class="dv">0</span>, sqrt(<span class="dv">1</span>/<span class="fl">0.0001</span>));</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  att_star ~ normal(mu_att, sqrt(<span class="dv">1</span> / tau_att));</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>  def_star ~ normal(mu_def, sqrt(<span class="dv">1</span> / tau_def));</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  tau_att ~ gamma(<span class="fl">0.01</span>, <span class="fl">0.01</span>);</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>  tau_def ~ gamma(<span class="fl">0.01</span>, <span class="fl">0.01</span>);</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizando-os-valores-estimados" class="level2">
+<h2 class="anchored" data-anchor-id="visualizando-os-valores-estimados">Visualizando os valores estimados</h2>
+<div style="text-align: center;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="modelo_baio_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="384"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="modelo_baio_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="modelo_baio_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="simulando-os-resultados-com-os-parâmetros-estimados" class="level2">
+<h2 class="anchored" data-anchor-id="simulando-os-resultados-com-os-parâmetros-estimados">Simulando os resultados com os parâmetros estimados</h2>
+<p>Para simularmos os resultados do campeonato, usaremos a média da distribuição preditiva a posteriori dos parâmetros estimados</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>estimated_games <span class="ot">&lt;-</span> games</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>simulate_game <span class="ot">&lt;-</span> <span class="cf">function</span>(home_team, away_team){</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  theta_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(home_eff<span class="sc">$</span>x) <span class="sc">+</span> <span class="fu">mean</span>(fit_data<span class="sc">$</span>att[,home_team]) <span class="sc">+</span> <span class="fu">mean</span>(fit_data<span class="sc">$</span>def[,away_team])</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  theta_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(fit_data<span class="sc">$</span>att[,away_team]) <span class="sc">+</span> <span class="fu">mean</span>(fit_data<span class="sc">$</span>def[,home_team])</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  y1 <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">1</span>, <span class="fu">exp</span>(theta_1))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  y2 <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">1</span>, <span class="fu">exp</span>(theta_2))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(y1, y2))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_games){</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  home_team <span class="ot">&lt;-</span> estimated_games[i, ]<span class="sc">$</span>h</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  away_team <span class="ot">&lt;-</span> estimated_games[i, ]<span class="sc">$</span>a</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">simulate_game</span>(home_team, away_team)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  estimated_games[i, ]<span class="sc">$</span>y1 <span class="ot">&lt;-</span> result[<span class="dv">1</span>]</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  estimated_games[i, ]<span class="sc">$</span>y2 <span class="ot">&lt;-</span> result[<span class="dv">2</span>]</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resultados-da-simulação" class="level2">
+<h2 class="anchored" data-anchor-id="resultados-da-simulação">Resultados da simulação</h2>
+<p>Alguns resultados da competição simulada utilizando os parâmetros estimados:</p>
+<ul>
+<li>O time com o melhor ataque da competição foi o <strong>Time 12</strong> balançando as redes <strong>69 vezes</strong>.</li>
+<li>O time com o pior ataque da competição foi o <strong>Time 14</strong> marcando <strong>31 gols</strong>.</li>
+<li>O time com a melhor defesa da competição foi o <strong>Time 8</strong> tendo sofrido um total de <strong>28 gols</strong>.</li>
+<li>O time com a pior defesa da competição foi o <strong>Time 10</strong> tendo sofrido um total de <strong>56 gols</strong>.</li>
+<li>A maior goleada do campeonato foi a vitória do <strong>Time 11</strong> por <strong>5 a 0</strong> em cima do <strong>Time 3</strong></li>
+<li>O <strong>Time 12</strong> foi o campeão com <strong>76 pontos</strong></li>
+<li>O <strong>Time 1</strong> foi o lanterna com <strong>34 pontos</strong></li>
+<li>O <strong>Time 18</strong> foi o primeiro time fora da zona, se salvando do rebaixamento com <strong>44 pontos</strong></li>
+</ul>
+<details>
+<summary>
+Clique para ver a tabela do campeonato completa
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Posicao</th>
+<th style="text-align: center;">Time</th>
+<th style="text-align: center;">Pontos</th>
+<th style="text-align: center;">Vitorias</th>
+<th style="text-align: center;">Empates</th>
+<th style="text-align: center;">Derrotas</th>
+<th style="text-align: center;">GM</th>
+<th style="text-align: center;">GS</th>
+<th style="text-align: center;">SG</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Time 12</td>
+<td style="text-align: center;">76</td>
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">69</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">Time 19</td>
+<td style="text-align: center;">76</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">61</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">Time 17</td>
+<td style="text-align: center;">68</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">54</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">Time 13</td>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">Time 2</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">29</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">Time 6</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">54</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">Time 10</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">56</td>
+<td style="text-align: center;">-4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">Time 15</td>
+<td style="text-align: center;">53</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">Time 8</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">28</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">Time 11</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">34</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">Time 20</td>
+<td style="text-align: center;">49</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">Time 9</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">-3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">Time 14</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">-5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">Time 3</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">-10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">Time 4</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">Time 18</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">-7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">Time 16</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">-11</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">Time 7</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">55</td>
+<td style="text-align: center;">-5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">Time 5</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">-4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">Time 1</td>
+<td style="text-align: center;">34</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">-10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="modelo_baio_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
