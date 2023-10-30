@@ -119,12 +119,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>num_teams <span class="ot">&lt;-</span> <span class="dv">20</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">h =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>num_teams, <span class="at">each =</span> num_teams),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>num_teams, <span class="at">times =</span> num_teams)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> games[games<span class="sc">$</span>h <span class="sc">!=</span> games<span class="sc">$</span>a, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Dicionario para relacionar o id de um time com seu nome</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>team_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Dragões do Sertão"</span>, <span class="st">"Atlético Rio Vermelho"</span>, <span class="st">"Borborema"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Guerreiros da Mata"</span>, <span class="st">"Cacique"</span>, <span class="st">"Aurora Litorânea"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Gávea Azul"</span>, <span class="st">"Mandacaru United"</span>, <span class="st">"Capibaribe"</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Índios Tupiniquins"</span>, <span class="st">"Atlético Taquara Verde"</span>, <span class="st">"Seriema"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Blumenau City"</span>, <span class="st">"Iguaçu"</span>, <span class="st">"Atlético Palmares"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Serra Dourada"</span>, <span class="st">"Sambaqui"</span>, <span class="st">"Pampa"</span>, </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Riacho do Meio"</span>, <span class="st">"Sport Club Xingu"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">h =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>num_teams, <span class="at">each =</span> num_teams),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>num_teams, <span class="at">times =</span> num_teams)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> games[games<span class="sc">$</span>h <span class="sc">!=</span> games<span class="sc">$</span>a, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="definindo-os-valores-reais" class="level2">
@@ -150,7 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output-display">
 <div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ff76abadec111a41b72c" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-ff76abadec111a41b72c">{"x":{"data":[{"x":[-0.2238,-0.1288,-0.21990000000000001,-0.14680000000000001,-0.19739999999999999,0.1173,0.34639999999999999,-0.043499999999999997,-0.2077,0.12139999999999999,0.085500000000000007,0.52259999999999995,0.29820000000000002,-0.1208,-0.0224,-0.0095999999999999992,0.082400000000000001,-0.25319999999999998,0.092299999999999993,-0.11890000000000001],"y":[0.47760000000000002,-0.084900000000000003,0.1719,-0.065600000000000006,0.1915,0.067199999999999996,0.37009999999999998,0.17000000000000001,-0.20610000000000001,-0.33479999999999999,0.0722,-0.33489999999999998,0.066799999999999998,-0.20380000000000001,-0.1358,-0.1333,-0.41410000000000002,0.32590000000000002,0.1123,-0.15540000000000001],"text":["Time 1","Time 2","Time 3","Time 4","Time 5","Time 6","Time 7","Time 8","Time 9","Time 10","Time 11","Time 12","Time 13","Time 14","Time 15","Time 16","Time 17","Time 18","Time 19","Time 20"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.29198999999999997,0.56138999999999994],"y":[0,0],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(255,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0,0],"y":[-0.45868500000000001,0.52218500000000001],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(255,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.29198999999999997,0.56138999999999994],"tickmode":"array","ticktext":["-0.2","0.0","0.2","0.4"],"tickvals":[-0.20000000000000001,0,0.20000000000000001,0.40000000000000013],"categoryorder":"array","categoryarray":["-0.2","0.0","0.2","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Efeito de Ataque","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.45868500000000001,0.52218500000000001],"tickmode":"array","ticktext":["-0.25","0.00","0.25","0.50"],"tickvals":[-0.25,0,0.25,0.5],"categoryorder":"array","categoryarray":["-0.25","0.00","0.25","0.50"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Efeito de Defesa","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"1f806e433736":{"x":{},"y":{},"text":{},"type":"scatter"},"1f8014f775db":{"yintercept":{}},"1f8038e8204":{"xintercept":{}}},"cur_data":"1f806e433736","visdat":{"1f806e433736":["function (y) ","x"],"1f8014f775db":["function (y) ","x"],"1f8038e8204":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-ff76abadec111a41b72c">{"x":{"data":[{"x":[-0.2238,-0.1288,-0.21990000000000001,-0.14680000000000001,-0.19739999999999999,0.1173,0.34639999999999999,-0.043499999999999997,-0.2077,0.12139999999999999,0.085500000000000007,0.52259999999999995,0.29820000000000002,-0.1208,-0.0224,-0.0095999999999999992,0.082400000000000001,-0.25319999999999998,0.092299999999999993,-0.11890000000000001],"y":[0.47760000000000002,-0.084900000000000003,0.1719,-0.065600000000000006,0.1915,0.067199999999999996,0.37009999999999998,0.17000000000000001,-0.20610000000000001,-0.33479999999999999,0.0722,-0.33489999999999998,0.066799999999999998,-0.20380000000000001,-0.1358,-0.1333,-0.41410000000000002,0.32590000000000002,0.1123,-0.15540000000000001],"text":["Dragões do Sertão","Atlético Rio Vermelho","Borborema","Guerreiros da Mata","Cacique","Aurora Litorânea","Gávea Azul","Mandacaru United","Capibaribe","Índios Tupiniquins","Atlético Taquara Verde","Seriema","Blumenau City","Iguaçu","Atlético Palmares","Serra Dourada","Sambaqui","Pampa","Riacho do Meio","Sport Club Xingu"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.29198999999999997,0.56138999999999994],"y":[0,0],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(255,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0,0],"y":[-0.45868500000000001,0.52218500000000001],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(255,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.29198999999999997,0.56138999999999994],"tickmode":"array","ticktext":["-0.2","0.0","0.2","0.4"],"tickvals":[-0.20000000000000001,0,0.20000000000000001,0.40000000000000013],"categoryorder":"array","categoryarray":["-0.2","0.0","0.2","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Efeito de Ataque","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.45868500000000001,0.52218500000000001],"tickmode":"array","ticktext":["-0.25","0.00","0.25","0.50"],"tickvals":[-0.25,0,0.25,0.5],"categoryorder":"array","categoryarray":["-0.25","0.00","0.25","0.50"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Efeito de Defesa","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"3c438984b64":{"x":{},"y":{},"text":{},"type":"scatter"},"3c4245d3388":{"yintercept":{}},"3c4d322a61":{"xintercept":{}}},"cur_data":"3c438984b64","visdat":{"3c438984b64":["function (y) ","x"],"3c4245d3388":["function (y) ","x"],"3c4d322a61":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -242,14 +252,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="análise-dos-resultados-gerados">Análise dos resultados gerados</h2>
 <p>Alguns resultados que nos dão uma visão geral dos dados são:</p>
 <ul>
-<li>O time com o melhor ataque da competição foi o <strong>Time 12</strong> balançando as redes <strong>76 vezes</strong>.</li>
-<li>O time com o pior ataque da competição foi o <strong>Time 9</strong> marcando <strong>26 gols</strong>.</li>
-<li>O time com a melhor defesa da competição foi o <strong>Time 9</strong> tendo sofrido um total de <strong>22 gols</strong>.</li>
-<li>O time com a pior defesa da competição foi o <strong>Time 7</strong> tendo sofrido um total de <strong>63 gols</strong>.</li>
-<li>A maior goleada do campeonato foi a vitória do <strong>Time 10</strong> por <strong>5 a 0</strong> em cima do <strong>Time 1</strong></li>
-<li>O <strong>Time 12</strong> foi o campeão com <strong>83 pontos</strong></li>
-<li>O <strong>Time 1</strong> foi o lanterna com <strong>27 pontos</strong></li>
-<li>O <strong>Time 3</strong> foi o primeiro time fora da zona, se salvando do rebaixamento com <strong>45 pontos</strong></li>
+<li>O time com o melhor ataque da competição foi o <strong>Seriema</strong> balançando as redes <strong>76 vezes</strong>.</li>
+<li>O time com o pior ataque da competição foi o <strong>Capibaribe</strong> marcando <strong>26 gols</strong>.</li>
+<li>O time com a melhor defesa da competição foi o <strong>Capibaribe</strong> tendo sofrido um total de <strong>22 gols</strong>.</li>
+<li>O time com a pior defesa da competição foi o <strong>Gávea Azul</strong> tendo sofrido um total de <strong>63 gols</strong>.</li>
+<li>A maior goleada do campeonato foi a vitória do <strong>Índios Tupiniquins</strong> por <strong>5 a 0</strong> em cima do <strong>Dragões do Sertão</strong></li>
+<li>O <strong>Seriema</strong> foi o campeão com <strong>83 pontos</strong></li>
+<li>O <strong>Dragões do Sertão</strong> foi o lanterna com <strong>27 pontos</strong></li>
+<li>O <strong>Borborema</strong> foi o primeiro time fora da zona, se salvando do rebaixamento com <strong>45 pontos</strong></li>
 </ul>
 <details>
 <summary>
@@ -259,15 +269,15 @@ Clique para ver a tabela do campeonato completa
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 13%">
-<col style="width: 11%">
-<col style="width: 14%">
-<col style="width: 13%">
-<col style="width: 14%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 28%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 6%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -285,7 +295,7 @@ Clique para ver a tabela do campeonato completa
 <tbody>
 <tr class="odd">
 <td style="text-align: center;">1</td>
-<td style="text-align: center;">Time 12</td>
+<td style="text-align: center;">Seriema</td>
 <td style="text-align: center;">83</td>
 <td style="text-align: center;">25</td>
 <td style="text-align: center;">8</td>
@@ -296,7 +306,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">2</td>
-<td style="text-align: center;">Time 17</td>
+<td style="text-align: center;">Sambaqui</td>
 <td style="text-align: center;">66</td>
 <td style="text-align: center;">19</td>
 <td style="text-align: center;">9</td>
@@ -307,7 +317,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">3</td>
-<td style="text-align: center;">Time 13</td>
+<td style="text-align: center;">Blumenau City</td>
 <td style="text-align: center;">61</td>
 <td style="text-align: center;">17</td>
 <td style="text-align: center;">10</td>
@@ -318,7 +328,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">4</td>
-<td style="text-align: center;">Time 10</td>
+<td style="text-align: center;">Índios Tupiniquins</td>
 <td style="text-align: center;">60</td>
 <td style="text-align: center;">14</td>
 <td style="text-align: center;">18</td>
@@ -329,7 +339,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">5</td>
-<td style="text-align: center;">Time 20</td>
+<td style="text-align: center;">Sport Club Xingu</td>
 <td style="text-align: center;">60</td>
 <td style="text-align: center;">16</td>
 <td style="text-align: center;">12</td>
@@ -340,7 +350,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">6</td>
-<td style="text-align: center;">Time 15</td>
+<td style="text-align: center;">Atlético Palmares</td>
 <td style="text-align: center;">58</td>
 <td style="text-align: center;">16</td>
 <td style="text-align: center;">10</td>
@@ -351,7 +361,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">7</td>
-<td style="text-align: center;">Time 7</td>
+<td style="text-align: center;">Gávea Azul</td>
 <td style="text-align: center;">57</td>
 <td style="text-align: center;">17</td>
 <td style="text-align: center;">6</td>
@@ -362,7 +372,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">8</td>
-<td style="text-align: center;">Time 19</td>
+<td style="text-align: center;">Riacho do Meio</td>
 <td style="text-align: center;">56</td>
 <td style="text-align: center;">15</td>
 <td style="text-align: center;">11</td>
@@ -373,7 +383,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">9</td>
-<td style="text-align: center;">Time 6</td>
+<td style="text-align: center;">Aurora Litorânea</td>
 <td style="text-align: center;">55</td>
 <td style="text-align: center;">17</td>
 <td style="text-align: center;">4</td>
@@ -384,7 +394,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">10</td>
-<td style="text-align: center;">Time 2</td>
+<td style="text-align: center;">Atlético Rio Vermelho</td>
 <td style="text-align: center;">52</td>
 <td style="text-align: center;">14</td>
 <td style="text-align: center;">10</td>
@@ -395,7 +405,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">11</td>
-<td style="text-align: center;">Time 16</td>
+<td style="text-align: center;">Serra Dourada</td>
 <td style="text-align: center;">52</td>
 <td style="text-align: center;">15</td>
 <td style="text-align: center;">7</td>
@@ -406,7 +416,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">12</td>
-<td style="text-align: center;">Time 5</td>
+<td style="text-align: center;">Cacique</td>
 <td style="text-align: center;">51</td>
 <td style="text-align: center;">14</td>
 <td style="text-align: center;">9</td>
@@ -417,7 +427,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">13</td>
-<td style="text-align: center;">Time 14</td>
+<td style="text-align: center;">Iguaçu</td>
 <td style="text-align: center;">50</td>
 <td style="text-align: center;">13</td>
 <td style="text-align: center;">11</td>
@@ -428,7 +438,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">14</td>
-<td style="text-align: center;">Time 4</td>
+<td style="text-align: center;">Guerreiros da Mata</td>
 <td style="text-align: center;">47</td>
 <td style="text-align: center;">11</td>
 <td style="text-align: center;">14</td>
@@ -439,7 +449,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">15</td>
-<td style="text-align: center;">Time 11</td>
+<td style="text-align: center;">Atlético Taquara Verde</td>
 <td style="text-align: center;">47</td>
 <td style="text-align: center;">12</td>
 <td style="text-align: center;">11</td>
@@ -450,7 +460,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">16</td>
-<td style="text-align: center;">Time 3</td>
+<td style="text-align: center;">Borborema</td>
 <td style="text-align: center;">45</td>
 <td style="text-align: center;">11</td>
 <td style="text-align: center;">12</td>
@@ -461,7 +471,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">17</td>
-<td style="text-align: center;">Time 8</td>
+<td style="text-align: center;">Mandacaru United</td>
 <td style="text-align: center;">41</td>
 <td style="text-align: center;">11</td>
 <td style="text-align: center;">8</td>
@@ -472,7 +482,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">18</td>
-<td style="text-align: center;">Time 9</td>
+<td style="text-align: center;">Capibaribe</td>
 <td style="text-align: center;">41</td>
 <td style="text-align: center;">8</td>
 <td style="text-align: center;">17</td>
@@ -483,7 +493,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">19</td>
-<td style="text-align: center;">Time 18</td>
+<td style="text-align: center;">Pampa</td>
 <td style="text-align: center;">32</td>
 <td style="text-align: center;">8</td>
 <td style="text-align: center;">8</td>
@@ -494,7 +504,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">20</td>
-<td style="text-align: center;">Time 1</td>
+<td style="text-align: center;">Dragões do Sertão</td>
 <td style="text-align: center;">27</td>
 <td style="text-align: center;">8</td>
 <td style="text-align: center;">3</td>
@@ -649,14 +659,14 @@ https://mc-stan.org/misc/warnings.html#tail-ess</code></pre>
 <h2 class="anchored" data-anchor-id="resultados-da-simulação">Resultados da simulação</h2>
 <p>Alguns resultados da competição simulada utilizando os parâmetros estimados:</p>
 <ul>
-<li>O time com o melhor ataque da competição foi o <strong>Time 12</strong> balançando as redes <strong>69 vezes</strong>.</li>
-<li>O time com o pior ataque da competição foi o <strong>Time 14</strong> marcando <strong>31 gols</strong>.</li>
-<li>O time com a melhor defesa da competição foi o <strong>Time 8</strong> tendo sofrido um total de <strong>28 gols</strong>.</li>
-<li>O time com a pior defesa da competição foi o <strong>Time 10</strong> tendo sofrido um total de <strong>56 gols</strong>.</li>
-<li>A maior goleada do campeonato foi a vitória do <strong>Time 11</strong> por <strong>5 a 0</strong> em cima do <strong>Time 3</strong></li>
-<li>O <strong>Time 12</strong> foi o campeão com <strong>76 pontos</strong></li>
-<li>O <strong>Time 1</strong> foi o lanterna com <strong>34 pontos</strong></li>
-<li>O <strong>Time 18</strong> foi o primeiro time fora da zona, se salvando do rebaixamento com <strong>44 pontos</strong></li>
+<li>O time com o melhor ataque da competição foi o <strong>Seriema</strong> balançando as redes <strong>69 vezes</strong>.</li>
+<li>O time com o pior ataque da competição foi o <strong>Iguaçu</strong> marcando <strong>31 gols</strong>.</li>
+<li>O time com a melhor defesa da competição foi o <strong>Mandacaru United</strong> tendo sofrido um total de <strong>28 gols</strong>.</li>
+<li>O time com a pior defesa da competição foi o <strong>Índios Tupiniquins</strong> tendo sofrido um total de <strong>56 gols</strong>.</li>
+<li>A maior goleada do campeonato foi a vitória do <strong>Atlético Taquara Verde</strong> por <strong>5 a 0</strong> em cima do <strong>Borborema</strong></li>
+<li>O <strong>Seriema</strong> foi o campeão com <strong>83 pontos</strong></li>
+<li>O <strong>Dragões do Sertão</strong> foi o lanterna com <strong>27 pontos</strong></li>
+<li>O <strong>Borborema</strong> foi o primeiro time fora da zona, se salvando do rebaixamento com <strong>45 pontos</strong></li>
 </ul>
 <details>
 <summary>
@@ -666,15 +676,15 @@ Clique para ver a tabela do campeonato completa
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 13%">
-<col style="width: 11%">
-<col style="width: 14%">
-<col style="width: 13%">
-<col style="width: 14%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 28%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 6%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -692,7 +702,7 @@ Clique para ver a tabela do campeonato completa
 <tbody>
 <tr class="odd">
 <td style="text-align: center;">1</td>
-<td style="text-align: center;">Time 12</td>
+<td style="text-align: center;">Seriema</td>
 <td style="text-align: center;">76</td>
 <td style="text-align: center;">23</td>
 <td style="text-align: center;">7</td>
@@ -703,7 +713,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">2</td>
-<td style="text-align: center;">Time 19</td>
+<td style="text-align: center;">Riacho do Meio</td>
 <td style="text-align: center;">76</td>
 <td style="text-align: center;">21</td>
 <td style="text-align: center;">13</td>
@@ -714,7 +724,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">3</td>
-<td style="text-align: center;">Time 17</td>
+<td style="text-align: center;">Sambaqui</td>
 <td style="text-align: center;">68</td>
 <td style="text-align: center;">20</td>
 <td style="text-align: center;">8</td>
@@ -725,7 +735,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">4</td>
-<td style="text-align: center;">Time 13</td>
+<td style="text-align: center;">Blumenau City</td>
 <td style="text-align: center;">64</td>
 <td style="text-align: center;">17</td>
 <td style="text-align: center;">13</td>
@@ -736,7 +746,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">5</td>
-<td style="text-align: center;">Time 2</td>
+<td style="text-align: center;">Atlético Rio Vermelho</td>
 <td style="text-align: center;">60</td>
 <td style="text-align: center;">18</td>
 <td style="text-align: center;">6</td>
@@ -747,7 +757,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">6</td>
-<td style="text-align: center;">Time 6</td>
+<td style="text-align: center;">Aurora Litorânea</td>
 <td style="text-align: center;">58</td>
 <td style="text-align: center;">16</td>
 <td style="text-align: center;">10</td>
@@ -758,7 +768,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">7</td>
-<td style="text-align: center;">Time 10</td>
+<td style="text-align: center;">Índios Tupiniquins</td>
 <td style="text-align: center;">58</td>
 <td style="text-align: center;">16</td>
 <td style="text-align: center;">10</td>
@@ -769,7 +779,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">8</td>
-<td style="text-align: center;">Time 15</td>
+<td style="text-align: center;">Atlético Palmares</td>
 <td style="text-align: center;">53</td>
 <td style="text-align: center;">14</td>
 <td style="text-align: center;">11</td>
@@ -780,7 +790,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">9</td>
-<td style="text-align: center;">Time 8</td>
+<td style="text-align: center;">Mandacaru United</td>
 <td style="text-align: center;">50</td>
 <td style="text-align: center;">14</td>
 <td style="text-align: center;">8</td>
@@ -791,7 +801,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">10</td>
-<td style="text-align: center;">Time 11</td>
+<td style="text-align: center;">Atlético Taquara Verde</td>
 <td style="text-align: center;">50</td>
 <td style="text-align: center;">13</td>
 <td style="text-align: center;">11</td>
@@ -802,7 +812,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">11</td>
-<td style="text-align: center;">Time 20</td>
+<td style="text-align: center;">Sport Club Xingu</td>
 <td style="text-align: center;">49</td>
 <td style="text-align: center;">13</td>
 <td style="text-align: center;">10</td>
@@ -813,7 +823,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">12</td>
-<td style="text-align: center;">Time 9</td>
+<td style="text-align: center;">Capibaribe</td>
 <td style="text-align: center;">46</td>
 <td style="text-align: center;">10</td>
 <td style="text-align: center;">16</td>
@@ -824,7 +834,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">13</td>
-<td style="text-align: center;">Time 14</td>
+<td style="text-align: center;">Iguaçu</td>
 <td style="text-align: center;">46</td>
 <td style="text-align: center;">12</td>
 <td style="text-align: center;">10</td>
@@ -835,7 +845,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">14</td>
-<td style="text-align: center;">Time 3</td>
+<td style="text-align: center;">Borborema</td>
 <td style="text-align: center;">44</td>
 <td style="text-align: center;">12</td>
 <td style="text-align: center;">8</td>
@@ -846,7 +856,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">15</td>
-<td style="text-align: center;">Time 4</td>
+<td style="text-align: center;">Guerreiros da Mata</td>
 <td style="text-align: center;">44</td>
 <td style="text-align: center;">12</td>
 <td style="text-align: center;">8</td>
@@ -857,7 +867,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">16</td>
-<td style="text-align: center;">Time 18</td>
+<td style="text-align: center;">Pampa</td>
 <td style="text-align: center;">44</td>
 <td style="text-align: center;">10</td>
 <td style="text-align: center;">14</td>
@@ -868,7 +878,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">17</td>
-<td style="text-align: center;">Time 16</td>
+<td style="text-align: center;">Serra Dourada</td>
 <td style="text-align: center;">43</td>
 <td style="text-align: center;">10</td>
 <td style="text-align: center;">13</td>
@@ -879,7 +889,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">18</td>
-<td style="text-align: center;">Time 7</td>
+<td style="text-align: center;">Gávea Azul</td>
 <td style="text-align: center;">40</td>
 <td style="text-align: center;">11</td>
 <td style="text-align: center;">7</td>
@@ -890,7 +900,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="odd">
 <td style="text-align: center;">19</td>
-<td style="text-align: center;">Time 5</td>
+<td style="text-align: center;">Cacique</td>
 <td style="text-align: center;">38</td>
 <td style="text-align: center;">9</td>
 <td style="text-align: center;">11</td>
@@ -901,7 +911,7 @@ Clique para ver a tabela do campeonato completa
 </tr>
 <tr class="even">
 <td style="text-align: center;">20</td>
-<td style="text-align: center;">Time 1</td>
+<td style="text-align: center;">Dragões do Sertão</td>
 <td style="text-align: center;">34</td>
 <td style="text-align: center;">10</td>
 <td style="text-align: center;">4</td>
