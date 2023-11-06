@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Modelo Poisson Simples Identificável 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="modelo_baio_identificavel_files/libs/clipboard/clipboard.min.js"></script>
+<script src="modelo_baio_identificavel_files/libs/quarto-html/quarto.js"></script>
+<script src="modelo_baio_identificavel_files/libs/quarto-html/popper.min.js"></script>
+<script src="modelo_baio_identificavel_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="modelo_baio_identificavel_files/libs/quarto-html/anchor.min.js"></script>
+<link href="modelo_baio_identificavel_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="modelo_baio_identificavel_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="modelo_baio_identificavel_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="modelo_baio_identificavel_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="modelo_baio_identificavel_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="modelo_baio_identificavel_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="modelo_baio_identificavel_files/libs/plotly-binding-4.10.2/plotly.js"></script>
+<script src="modelo_baio_identificavel_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="modelo_baio_identificavel_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="modelo_baio_identificavel_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="modelo_baio_identificavel_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="modelo_baio_identificavel_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="modelo_baio_identificavel_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modelo Poisson Simples Identificável 1</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="importanto-as-bibliotecas-necessárias" class="level2">
+<h2 class="anchored" data-anchor-id="importanto-as-bibliotecas-necessárias">Importanto as bibliotecas necessárias</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(plotly)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(knitr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(rstan)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(reshape2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="gerando-os-jogos" class="level2">
+<h2 class="anchored" data-anchor-id="gerando-os-jogos">Gerando os jogos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>num_teams <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Dicionario para relacionar o id de um time com seu nome</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>team_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Dragões do Sertão"</span>, <span class="st">"Atlético Rio Vermelho"</span>, <span class="st">"Borborema"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Guerreiros da Mata"</span>, <span class="st">"Cacique"</span>, <span class="st">"Aurora Litorânea"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Gávea Azul"</span>, <span class="st">"Mandacaru United"</span>, <span class="st">"Capibaribe"</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Índios Tupiniquins"</span>, <span class="st">"Atlético Taquara Verde"</span>, <span class="st">"Seriema"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Blumenau City"</span>, <span class="st">"Iguaçu"</span>, <span class="st">"Atlético Palmares"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Serra Dourada"</span>, <span class="st">"Sambaqui"</span>, <span class="st">"Pampa"</span>, </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Riacho do Meio"</span>, <span class="st">"Sport Club Xingu"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">h =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>num_teams, <span class="at">each =</span> num_teams),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>num_teams, <span class="at">times =</span> num_teams)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>games <span class="ot">&lt;-</span> games[games<span class="sc">$</span>h <span class="sc">!=</span> games<span class="sc">$</span>a, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="definindo-os-valores-reais" class="level2">
+<h2 class="anchored" data-anchor-id="definindo-os-valores-reais">Definindo os valores reais</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">40</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>mu_att <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>tau_att <span class="ot">&lt;-</span> <span class="dv">16</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sd_att <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>tau_att)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>mu_def <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>tau_def <span class="ot">&lt;-</span> <span class="dv">16</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>sd_def <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>tau_def)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>home_effect <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="fl">0.2</span>, <span class="fl">0.1</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>att_effects <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(num_teams, mu_att, sd_att)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>def_effects <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(num_teams, mu_def, sd_def)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><span class="math inline">\(home\)</span> = 0.2477739</li>
+<li><span class="math inline">\(\mu_{att}\)</span> = 0</li>
+<li><span class="math inline">\(\sigma_{att}\)</span> = 0.25</li>
+<li><span class="math inline">\(\mu_{def}\)</span> = 0</li>
+<li><span class="math inline">\(\sigma_{def}\)</span> = 0.25</li>
+</ul>
+<p>Esses foram os efeitos de ataque e defesa escolhidos:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-b32bc6107752a4b385b4" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b32bc6107752a4b385b4">{"x":{"data":[{"x":[0.12404570570257763,-0.21489607540103661,-0.20726498892861925,-0.080393270840732403,-0.32594259944260784,-0.35537164980086799,0.43622873629283371,-0.072069840050869791,-0.32721643002939865,-0.017363047174886702,-0.30623166885461256,0.20224906526078701,-0.12303758491878661,0.11317348359166357,0.24990827398354223,0.11675740048395834,0.094012998194473466,0.42587273845452517,-0.25886537947427418,0.33203052487367601],"y":[-0.14857177733007984,0.40282114564135157,-0.27816845698426773,-0.36504574484796881,0.18303899449134448,-0.40258485803352906,0.083016840587409366,0.19021403909454412,-0.46341738721844689,0.1977878923141049,-0.32043509816517302,-0.19496933459931057,0.35958556957393567,-0.058707385734845602,0.1530492852758846,-0.36461765827587395,0.060692266972867469,-0.079348027861282755,0.21484333308068645,0.33603876775544694],"text":["Dragões do Sertão","Atlético Rio Vermelho","Borborema","Guerreiros da Mata","Cacique","Aurora Litorânea","Gávea Azul","Mandacaru United","Capibaribe","Índios Tupiniquins","Atlético Taquara Verde","Seriema","Blumenau City","Iguaçu","Atlético Palmares","Serra Dourada","Sambaqui","Pampa","Riacho do Meio","Sport Club Xingu"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.39495166910555307,0.47580875559751878],"y":[0,0],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(255,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0,0],"y":[-0.50672931386143683,0.44613307228434151],"text":"","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(255,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.39495166910555307,0.47580875559751878],"tickmode":"array","ticktext":["-0.2","0.0","0.2","0.4"],"tickvals":[-0.20000000000000001,0,0.20000000000000012,0.40000000000000008],"categoryorder":"array","categoryarray":["-0.2","0.0","0.2","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Efeito de Ataque","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.50672931386143683,0.44613307228434151],"tickmode":"array","ticktext":["-0.50","-0.25","0.00","0.25"],"tickvals":[-0.5,-0.25,0,0.25],"categoryorder":"array","categoryarray":["-0.50","-0.25","0.00","0.25"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Efeito de Defesa","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"27287e6d675b":{"x":{},"y":{},"text":{},"type":"scatter"},"2728681d4127":{"yintercept":{}},"27283a4b3f8c":{"xintercept":{}}},"cur_data":"27287e6d675b","visdat":{"27287e6d675b":["function (y) ","x"],"2728681d4127":["function (y) ","x"],"27283a4b3f8c":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="gerando-os-resultados-dos-jogos" class="level2">
+<h2 class="anchored" data-anchor-id="gerando-os-resultados-dos-jogos">Gerando os resultados dos jogos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">40</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>simulate_games <span class="ot">&lt;-</span> <span class="cf">function</span>(home_team, away_team, num_games){</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  theta_1 <span class="ot">&lt;-</span> home_effect <span class="sc">+</span> att_effects[home_team] <span class="sc">+</span> def_effects[away_team]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  theta_2 <span class="ot">&lt;-</span> att_effects[away_team] <span class="sc">+</span> def_effects[home_team]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  y1 <span class="ot">&lt;-</span> <span class="fu">rpois</span>(num_games, <span class="fu">exp</span>(theta_1))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  y2 <span class="ot">&lt;-</span> <span class="fu">rpois</span>(num_games, <span class="fu">exp</span>(theta_2))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">y1 =</span> y1, <span class="at">y2 =</span> y2))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>num_games <span class="ot">&lt;-</span> <span class="fu">length</span>(games<span class="sc">$</span>h)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">simulate_games</span>(games<span class="sc">$</span>h, games<span class="sc">$</span>a, num_games)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>games<span class="sc">$</span>y1 <span class="ot">&lt;-</span> results<span class="sc">$</span>y1</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>games<span class="sc">$</span>y2 <span class="ot">&lt;-</span> results<span class="sc">$</span>y2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alguns dos resultados gerados foram:</p>
+<div style="margin-left: 20px; margin-right: 20px">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Mandante</th>
+<th style="text-align: center;">Visitante</th>
+<th style="text-align: center;">Gols_do_Mandante</th>
+<th style="text-align: center;">Gols_do_Visitante</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="análise-dos-resultados-gerados" class="level2">
+<h2 class="anchored" data-anchor-id="análise-dos-resultados-gerados">Análise dos resultados gerados</h2>
+<p>Alguns resultados que nos dão uma visão geral dos dados são:</p>
+<ul>
+<li>O time com o melhor ataque da competição foi o <strong>Gávea Azul</strong> balançando as redes <strong>73 vezes</strong>.</li>
+<li>O time com o pior ataque da competição foi o <strong>Capibaribe</strong> marcando <strong>23 gols</strong>.</li>
+<li>O time com a melhor defesa da competição foi o <strong>Aurora Litorânea</strong> tendo sofrido um total de <strong>24 gols</strong>.</li>
+<li>O time com a pior defesa da competição foi o <strong>Sport Club Xingu</strong> tendo sofrido um total de <strong>67 gols</strong>.</li>
+<li>A maior goleada do campeonato foi a vitória do <strong>Pampa</strong> por <strong>9 a 1</strong> em cima do <strong>Atlético Rio Vermelho</strong></li>
+<li>O <strong>Iguaçu</strong> foi o campeão com <strong>77 pontos</strong></li>
+<li>O <strong>Blumenau City</strong> foi o lanterna com <strong>31 pontos</strong></li>
+<li>O <strong>Cacique</strong> foi o primeiro time fora da zona, se salvando do rebaixamento com <strong>41 pontos</strong></li>
+</ul>
+<details>
+<summary>
+Clique para ver a tabela do campeonato completa
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 28%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Posicao</th>
+<th style="text-align: center;">Time</th>
+<th style="text-align: center;">Pontos</th>
+<th style="text-align: center;">Vitorias</th>
+<th style="text-align: center;">Empates</th>
+<th style="text-align: center;">Derrotas</th>
+<th style="text-align: center;">GM</th>
+<th style="text-align: center;">GS</th>
+<th style="text-align: center;">SG</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Iguaçu</td>
+<td style="text-align: center;">77</td>
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">65</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">Gávea Azul</td>
+<td style="text-align: center;">72</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">73</td>
+<td style="text-align: center;">53</td>
+<td style="text-align: center;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">Serra Dourada</td>
+<td style="text-align: center;">69</td>
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">49</td>
+<td style="text-align: center;">34</td>
+<td style="text-align: center;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">Atlético Palmares</td>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">54</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">Dragões do Sertão</td>
+<td style="text-align: center;">62</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">Seriema</td>
+<td style="text-align: center;">62</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">Pampa</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">53</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">Guerreiros da Mata</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">Sambaqui</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">Aurora Litorânea</td>
+<td style="text-align: center;">56</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">Capibaribe</td>
+<td style="text-align: center;">47</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">Mandacaru United</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">-11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">Borborema</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">Índios Tupiniquins</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">Atlético Rio Vermelho</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">-7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">Cacique</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">-3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">Sport Club Xingu</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">67</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">Atlético Taquara Verde</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">Riacho do Meio</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">-2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">Blumenau City</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">48</td>
+<td style="text-align: center;">-11</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
+</section>
+<section id="estimando-os-parâmetros-com-o-stan" class="level2">
+<h2 class="anchored" data-anchor-id="estimando-os-parâmetros-com-o-stan">Estimando os parâmetros com o STAN</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Código no R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Código no STAN</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell" data-hash="modelo_baio_identificavel_cache/html/unnamed-chunk-12_f2f66ffb4d4efe08a20af0cd98750e96">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">append</span>(<span class="fu">list</span>(<span class="at">ngames =</span> num_games, <span class="at">nteams =</span> num_teams), <span class="fu">as.list</span>(games))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">stan_model</span>(<span class="st">"./models/model.stan"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sampling</span>(model, <span class="at">data =</span> data, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">chains =</span> <span class="dv">2</span>, <span class="at">cores =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<div class="sourceCode" id="cb6"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; ngames;       </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; nteams;       </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> h[ngames];             </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> a[ngames];             </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> y1[ngames];            </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> y2[ngames];            </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> home;                 </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[nteams - <span class="dv">1</span>] att_star;   </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[nteams - <span class="dv">1</span>] def_star;  </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu_att;            </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu_def;               </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; tau_att;    </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; tau_def;     </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="kw">transformed parameters</span> {</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[nteams] att;        </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[nteams] def;        </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span>:nteams - <span class="dv">1</span>) {</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    att[t] = att_star[t];</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    def[t] = def_star[t];</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  att[nteams] = <span class="dv">0</span>;</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  def[nteams] = <span class="dv">0</span>;</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (g <span class="cf">in</span> <span class="dv">1</span>:ngames) {</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    y1[g] ~ poisson_log(home + att[h[g]] + def[a[g]]);</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    y2[g] ~ poisson_log(att[a[g]] + def[h[g]]);</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  home ~ normal(<span class="dv">0</span>, sqrt(<span class="dv">1</span>/<span class="fl">0.0001</span>));</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  mu_att ~ normal(<span class="dv">0</span>, sqrt(<span class="dv">1</span>/<span class="fl">0.0001</span>));</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  mu_def ~ normal(<span class="dv">0</span>, sqrt(<span class="dv">1</span>/<span class="fl">0.0001</span>));</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>  att_star ~ normal(mu_att, sqrt(<span class="dv">1</span> / tau_att));</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  def_star ~ normal(mu_def, sqrt(<span class="dv">1</span> / tau_def));</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  tau_att ~ cauchy(<span class="dv">0</span>, <span class="fl">2.5</span>);</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  tau_def ~ cauchy(<span class="dv">0</span>, <span class="fl">2.5</span>);</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="kw">generated quantities</span> {</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> y1_pred[ngames];</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> y2_pred[ngames];</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (g <span class="cf">in</span> <span class="dv">1</span>:ngames) {</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    y1_pred[g] = poisson_log_rng(home + att[h[g]] + def[a[g]]);</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    y2_pred[g] = poisson_log_rng(att[a[g]] + def[h[g]]);</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizando-os-valores-estimados" class="level2">
+<h2 class="anchored" data-anchor-id="visualizando-os-valores-estimados">Visualizando os valores estimados</h2>
+<div style="text-align: center;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="modelo_baio_identificavel_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="384"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="modelo_baio_identificavel_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="modelo_baio_identificavel_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="simulando-os-resultados-com-os-parâmetros-estimados" class="level2">
+<h2 class="anchored" data-anchor-id="simulando-os-resultados-com-os-parâmetros-estimados">Simulando os resultados com os parâmetros estimados</h2>
+<p>Para simularmos os resultados do campeonato, usaremos a média da distribuição preditiva a posteriori dos parâmetros estimados</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">extract</span>(fit))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y1_pred_samples <span class="ot">&lt;-</span> fit_df[, <span class="fu">grepl</span>(<span class="st">"y1_pred"</span>, <span class="fu">colnames</span>(fit_df))]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>y2_pred_samples <span class="ot">&lt;-</span> fit_df[, <span class="fu">grepl</span>(<span class="st">"y2_pred"</span>, <span class="fu">colnames</span>(fit_df))]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>estimated_games <span class="ot">&lt;-</span> games</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>mean_y1 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">apply</span>(y1_pred_samples, <span class="dv">2</span>, mean))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>mean_y2 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">apply</span>(y2_pred_samples, <span class="dv">2</span>, mean))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>estimated_games<span class="sc">$</span>y1 <span class="ot">&lt;-</span> mean_y1</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>estimated_games<span class="sc">$</span>y2 <span class="ot">&lt;-</span> mean_y2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resultados-da-simulação" class="level2">
+<h2 class="anchored" data-anchor-id="resultados-da-simulação">Resultados da simulação</h2>
+<p>Alguns resultados da competição simulada utilizando os parâmetros estimados:</p>
+<ul>
+<li>O time com o melhor ataque da competição foi o <strong>Gávea Azul</strong> balançando as redes <strong>66 vezes</strong>.</li>
+<li>O time com o pior ataque da competição foi o <strong>Capibaribe</strong> marcando <strong>35 gols</strong>.</li>
+<li>O time com a melhor defesa da competição foi o <strong>Capibaribe</strong> tendo sofrido um total de <strong>35 gols</strong>.</li>
+<li>O time com a pior defesa da competição foi o <strong>Blumenau City</strong> tendo sofrido um total de <strong>49 gols</strong>.</li>
+<li>A maior goleada do campeonato foi a vitória do <strong>Gávea Azul</strong> por <strong>3 a 1</strong> em cima do <strong>Atlético Rio Vermelho</strong></li>
+<li>O <strong>Iguaçu</strong> foi o campeão com <strong>77 pontos</strong></li>
+<li>O <strong>Blumenau City</strong> foi o lanterna com <strong>31 pontos</strong></li>
+<li>O <strong>Cacique</strong> foi o primeiro time fora da zona, se salvando do rebaixamento com <strong>41 pontos</strong></li>
+</ul>
+<details>
+<summary>
+Clique para ver a tabela do campeonato completa
+</summary>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 29%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Posicao</th>
+<th style="text-align: center;">Time</th>
+<th style="text-align: center;">Pontos</th>
+<th style="text-align: center;">Vitorias</th>
+<th style="text-align: center;">Empates</th>
+<th style="text-align: center;">Derrotas</th>
+<th style="text-align: center;">GM</th>
+<th style="text-align: center;">GS</th>
+<th style="text-align: center;">SG</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Gávea Azul</td>
+<td style="text-align: center;">81</td>
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">66</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">Iguaçu</td>
+<td style="text-align: center;">77</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">Pampa</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">14</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">Seriema</td>
+<td style="text-align: center;">65</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">54</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">Serra Dourada</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">27</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">48</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">Dragões do Sertão</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">26</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">49</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">Atlético Palmares</td>
+<td style="text-align: center;">56</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">Sambaqui</td>
+<td style="text-align: center;">51</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">Guerreiros da Mata</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">Aurora Litorânea</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">Sport Club Xingu</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">Atlético Taquara Verde</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">Mandacaru United</td>
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">Índios Tupiniquins</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">Borborema</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">Capibaribe</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">Cacique</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">-3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">Riacho do Meio</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">-3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">Atlético Rio Vermelho</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">-4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">Blumenau City</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">29</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">49</td>
+<td style="text-align: center;">-8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="modelo_baio_identificavel_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
