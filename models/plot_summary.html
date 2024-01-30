@@ -63,32 +63,20 @@ ul.task-list li input[type="checkbox"] {
 <section id="cenários" class="level2">
 <h2 class="anchored" data-anchor-id="cenários">Cenários</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Poisson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Binomial Negativa</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Poisson Inflada</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Poisson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Binomial Negativa</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Poisson Infladas</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Poisson 2</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <section id="dados-poisson-modelo-poisson" class="level3">
-<h3 class="anchored" data-anchor-id="dados-poisson-modelo-poisson">Dados Poisson Modelo Poisson</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<h3 class="anchored" data-anchor-id="dados-poisson-modelo-poisson">Dados Poisson Modelo Poisson<img src="plot_summary_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></h3>
 </section>
 <section id="dados-poisson-modelo-binomial-negativa" class="level3">
-<h3 class="anchored" data-anchor-id="dados-poisson-modelo-binomial-negativa">Dados Poisson Modelo Binomial Negativa</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<h3 class="anchored" data-anchor-id="dados-poisson-modelo-binomial-negativa">Dados Poisson Modelo Binomial Negativa<img src="plot_summary_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></h3>
 </section>
-<section id="dados-poisson-modelo-poisson-com-zero-inflado" class="level3">
-<h3 class="anchored" data-anchor-id="dados-poisson-modelo-poisson-com-zero-inflado">Dados Poisson Modelo Poisson com Zero Inflado</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<section id="dados-poisson-modelo-poisson-inflada" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-modelo-poisson-inflada">Dados Poisson Modelo Poisson Inflada<img src="plot_summary_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid" width="672"></h3>
+</section>
+<section id="dados-poisson-modelo-poisson-2" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-modelo-poisson-2">Dados Poisson Modelo Poisson 2<img src="plot_summary_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid" width="672"></h3>
 </section>
 <section id="proporção-de-vezes-que-o-modelo-foi-selecionado-segundo-cada-critério-de-seleção" class="level3">
 <h3 class="anchored" data-anchor-id="proporção-de-vezes-que-o-modelo-foi-selecionado-segundo-cada-critério-de-seleção">Proporção de vezes que o modelo foi selecionado segundo cada critério de seleção</h3>
@@ -99,6 +87,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="header">
 <th style="text-align: left;"></th>
 <th style="text-align: center;">negbinom</th>
+<th style="text-align: center;">poisson_2</th>
 <th style="text-align: center;">poisson_infl</th>
 <th style="text-align: center;">poisson</th>
 </tr>
@@ -106,9 +95,10 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">LOO-CV</td>
-<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.09</td>
+<td style="text-align: center;">0.075</td>
 <td style="text-align: center;">0.215</td>
-<td style="text-align: center;">0.785</td>
+<td style="text-align: center;">0.62</td>
 </tr>
 </tbody>
 </table>
@@ -118,28 +108,16 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <section id="dados-binomial-negativa-modelo-poisson" class="level3">
-<h3 class="anchored" data-anchor-id="dados-binomial-negativa-modelo-poisson">Dados Binomial Negativa Modelo Poisson</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<h3 class="anchored" data-anchor-id="dados-binomial-negativa-modelo-poisson">Dados Binomial Negativa Modelo Poisson<img src="plot_summary_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></h3>
 </section>
 <section id="dados-binomial-negativa-modelo-binomial-negativa" class="level3">
-<h3 class="anchored" data-anchor-id="dados-binomial-negativa-modelo-binomial-negativa">Dados Binomial Negativa Modelo Binomial Negativa</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<h3 class="anchored" data-anchor-id="dados-binomial-negativa-modelo-binomial-negativa">Dados Binomial Negativa Modelo Binomial Negativa<img src="plot_summary_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></h3>
 </section>
-<section id="dados-binomial-negativa-modelo-poisson-com-zero-inflado" class="level3">
-<h3 class="anchored" data-anchor-id="dados-binomial-negativa-modelo-poisson-com-zero-inflado">Dados Binomial Negativa Modelo Poisson com Zero Inflado</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<section id="dados-binomial-negativa-modelo-poisson-inflada" class="level3">
+<h3 class="anchored" data-anchor-id="dados-binomial-negativa-modelo-poisson-inflada">Dados Binomial Negativa Modelo Poisson Inflada<img src="plot_summary_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid" width="672"></h3>
+</section>
+<section id="dados-binomial-negativa-modelo-poisson-2" class="level3">
+<h3 class="anchored" data-anchor-id="dados-binomial-negativa-modelo-poisson-2">Dados Binomial Negativa Modelo Poisson 2<img src="plot_summary_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid" width="672"></h3>
 </section>
 <section id="proporção-de-vezes-que-o-modelo-foi-selecionado-segundo-cada-critério-de-seleção-1" class="level3">
 <h3 class="anchored" data-anchor-id="proporção-de-vezes-que-o-modelo-foi-selecionado-segundo-cada-critério-de-seleção-1">Proporção de vezes que o modelo foi selecionado segundo cada critério de seleção</h3>
@@ -150,6 +128,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="header">
 <th style="text-align: left;"></th>
 <th style="text-align: center;">negbinom</th>
+<th style="text-align: center;">poisson_2</th>
 <th style="text-align: center;">poisson_infl</th>
 <th style="text-align: center;">poisson</th>
 </tr>
@@ -157,9 +136,10 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">LOO-CV</td>
+<td style="text-align: center;">0.92</td>
+<td style="text-align: center;">0.015</td>
+<td style="text-align: center;">0.065</td>
 <td style="text-align: center;">0</td>
-<td style="text-align: center;">0.93</td>
-<td style="text-align: center;">0.07</td>
 </tr>
 </tbody>
 </table>
@@ -168,29 +148,17 @@ ul.task-list li input[type="checkbox"] {
 </section>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<section id="dados-poisson-com-zero-inflado-modelo-poisson" class="level3">
-<h3 class="anchored" data-anchor-id="dados-poisson-com-zero-inflado-modelo-poisson">Dados Poisson com Zero Inflado Modelo Poisson</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<section id="dados-poisson-inflada-modelo-poisson" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-inflada-modelo-poisson">Dados Poisson Inflada Modelo Poisson<img src="plot_summary_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></h3>
 </section>
-<section id="dados-poisson-com-zero-inflado-modelo-binomial-negativa" class="level3">
-<h3 class="anchored" data-anchor-id="dados-poisson-com-zero-inflado-modelo-binomial-negativa">Dados Poisson com Zero Inflado Modelo Binomial Negativa</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<section id="dados-poisson-inflada-modelo-binomial-negativa" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-inflada-modelo-binomial-negativa">Dados Poisson Inflada Modelo Binomial Negativa<img src="plot_summary_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></h3>
 </section>
-<section id="dados-poisson-com-zero-inflado-modelo-poisson-com-zero-inflado" class="level3">
-<h3 class="anchored" data-anchor-id="dados-poisson-com-zero-inflado-modelo-poisson-com-zero-inflado">Dados Poisson com Zero Inflado Modelo Poisson com Zero Inflado</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="plot_summary_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<section id="dados-poisson-inflada-modelo-poisson-inflada" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-inflada-modelo-poisson-inflada">Dados Poisson Inflada Modelo Poisson Inflada<img src="plot_summary_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid" width="672"></h3>
+</section>
+<section id="dados-poisson-inflada-modelo-poisson-2" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-inflada-modelo-poisson-2">Dados Poisson Inflada Modelo Poisson 2<img src="plot_summary_files/figure-html/unnamed-chunk-9-4.png" class="img-fluid" width="672"></h3>
 </section>
 <section id="proporção-de-vezes-que-o-modelo-foi-selecionado-segundo-cada-critério-de-seleção-2" class="level3">
 <h3 class="anchored" data-anchor-id="proporção-de-vezes-que-o-modelo-foi-selecionado-segundo-cada-critério-de-seleção-2">Proporção de vezes que o modelo foi selecionado segundo cada critério de seleção</h3>
@@ -201,6 +169,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="header">
 <th style="text-align: left;"></th>
 <th style="text-align: center;">negbinom</th>
+<th style="text-align: center;">poisson_2</th>
 <th style="text-align: center;">poisson_infl</th>
 <th style="text-align: center;">poisson</th>
 </tr>
@@ -208,8 +177,50 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">LOO-CV</td>
+<td style="text-align: center;">0.13</td>
+<td style="text-align: center;">0.005</td>
+<td style="text-align: center;">0.865</td>
 <td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<section id="dados-poisson-2-modelo-poisson" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-2-modelo-poisson">Dados Poisson 2 Modelo Poisson<img src="plot_summary_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></h3>
+</section>
+<section id="dados-poisson-2-modelo-binomial-negativa" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-2-modelo-binomial-negativa">Dados Poisson 2 Modelo Binomial Negativa<img src="plot_summary_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></h3>
+</section>
+<section id="dados-poisson-2-modelo-poisson-inflada" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-2-modelo-poisson-inflada">Dados Poisson 2 Modelo Poisson Inflada<img src="plot_summary_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid" width="672"></h3>
+</section>
+<section id="dados-poisson-2-modelo-poisson-2" class="level3">
+<h3 class="anchored" data-anchor-id="dados-poisson-2-modelo-poisson-2">Dados Poisson 2 Modelo Poisson 2<img src="plot_summary_files/figure-html/unnamed-chunk-11-4.png" class="img-fluid" width="672"></h3>
+</section>
+<section id="proporção-de-vezes-que-o-modelo-foi-selecionado-segundo-cada-critério-de-seleção-3" class="level3">
+<h3 class="anchored" data-anchor-id="proporção-de-vezes-que-o-modelo-foi-selecionado-segundo-cada-critério-de-seleção-3">Proporção de vezes que o modelo foi selecionado segundo cada critério de seleção</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">negbinom</th>
+<th style="text-align: center;">poisson_2</th>
+<th style="text-align: center;">poisson_infl</th>
+<th style="text-align: center;">poisson</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">LOO-CV</td>
+<td style="text-align: center;">0.13</td>
+<td style="text-align: center;">0.005</td>
+<td style="text-align: center;">0.865</td>
 <td style="text-align: center;">0</td>
 </tr>
 </tbody>
