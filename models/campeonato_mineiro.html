@@ -150,8 +150,8 @@ Attaching package: 'footstan'</code></pre>
 <pre><code>
 SAMPLING FOR MODEL 'poisson' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 1.7e-05 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
+Chain 1: Gradient evaluation took 5e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.5 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -168,15 +168,15 @@ Chain 1: Iteration: 8000 / 10000 [ 80%]  (Sampling)
 Chain 1: Iteration: 9000 / 10000 [ 90%]  (Sampling)
 Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
 Chain 1: 
-Chain 1:  Elapsed Time: 0.778 seconds (Warm-up)
-Chain 1:                0.893 seconds (Sampling)
-Chain 1:                1.671 seconds (Total)
+Chain 1:  Elapsed Time: 0.889 seconds (Warm-up)
+Chain 1:                0.862 seconds (Sampling)
+Chain 1:                1.751 seconds (Total)
 Chain 1: 
 
 SAMPLING FOR MODEL 'poisson' NOW (CHAIN 2).
 Chain 2: 
-Chain 2: Gradient evaluation took 2.5e-05 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+Chain 2: Gradient evaluation took 1.6e-05 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
 Chain 2: Adjust your expectations accordingly!
 Chain 2: 
 Chain 2: 
@@ -193,9 +193,9 @@ Chain 2: Iteration: 8000 / 10000 [ 80%]  (Sampling)
 Chain 2: Iteration: 9000 / 10000 [ 90%]  (Sampling)
 Chain 2: Iteration: 10000 / 10000 [100%]  (Sampling)
 Chain 2: 
-Chain 2:  Elapsed Time: 1.35 seconds (Warm-up)
-Chain 2:                1.025 seconds (Sampling)
-Chain 2:                2.375 seconds (Total)
+Chain 2:  Elapsed Time: 0.917 seconds (Warm-up)
+Chain 2:                1.003 seconds (Sampling)
+Chain 2:                1.92 seconds (Total)
 Chain 2: </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
@@ -208,36 +208,16 @@ to find out why this is a problem and how to eliminate them.</code></pre>
 </div>
 </div>
 </section>
-<section id="visualizando-os-parâmetros-ajustados-para-os-semi-finalistas" class="level2">
-<h2 class="anchored" data-anchor-id="visualizando-os-parâmetros-ajustados-para-os-semi-finalistas">Visualizando os parâmetros ajustados para os semi-finalistas</h2>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Tombense</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Cruzeiro</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">América-MG</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Atlético-MG</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid" width="672"><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-4-4.png" class="img-fluid" width="672"></p>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-4-5.png" class="img-fluid" width="672"><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-4-6.png" class="img-fluid" width="672"></p>
-</div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-4-7.png" class="img-fluid" width="672"><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-4-8.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</div>
-</section>
 <section id="prevendo-os-resultados-das-semi-finais" class="level2">
 <h2 class="anchored" data-anchor-id="prevendo-os-resultados-das-semi-finais">Prevendo os Resultados das Semi-finais</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">11</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">1</span>, <span class="dv">10</span>)</span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">11</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>new_games <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">h =</span> h, <span class="at">a =</span> a)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_poisson, new_games)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A função <code>footstan::predict</code> retorna uma lista com todos os resultados previstos pelo stan para cada jogo. Podemos então utilizar a função: <code>footstan::prediction_proportions</code> para calcular as proporções de cada um dos resultados e obter-se uma predição mais simples de se interpretar</p>
+<p>A função <code>footstan::predict</code> retorna uma lista com todos os resultados previstos pelo stan para cada jogo. Podemos então utilizar a função: <code>footstan::prediction_proportions</code> para calcular as proporções de cada um dos resultados e obter-se uma predição mais simples de se interpretar.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>proportions <span class="ot">&lt;-</span> <span class="fu">prediction_proportions</span>(predictions)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -247,59 +227,42 @@ to find out why this is a problem and how to eliminate them.</code></pre>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>proportions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            h           a home_win   draw home_lost
-1    Tombense    Cruzeiro   0.3563 0.2844    0.3593
-2 Atlético-MG  América-MG   0.2699 0.3035    0.4266
-3    Cruzeiro    Tombense   0.4272 0.2753    0.2975
-4  América-MG Atlético-MG   0.4825 0.2912    0.2263</code></pre>
+<pre><code>           h           a home_win   draw home_lost
+1   Cruzeiro    Tombense   0.4196 0.3019    0.2785
+2 América-MG Atlético-MG   0.4202 0.3129    0.2669</code></pre>
 </div>
 </div>
+</section>
+<section id="comparando-as-previsões-entre-modelos" class="level2">
+<h2 class="anchored" data-anchor-id="comparando-as-previsões-entre-modelos">Comparando as previsões entre modelos</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Poisson Simples</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Binomial Negativa</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Poisson Inflada</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Poisson 2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Uma estatística muito utilizada por casas de apostas é o número de gols em um jogo, podemos utilizar a função <code>footstan::goals_histogram</code> para visualizarmos o número de gols preditos em forma de histograma: ### Jogo Tombense x Cruzeiro</p>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goals_histogram</span>(predictions, <span class="dv">1</span>, <span class="at">team =</span> <span class="st">"home"</span>, <span class="at">home_team =</span> <span class="st">"Tombense"</span>, <span class="at">fill_color=</span><span class="st">"#e91b25"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="jogo-atlético-mg-x-américa" class="level3">
-<h3 class="anchored" data-anchor-id="jogo-atlético-mg-x-américa">Jogo Atlético-MG x América</h3>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goals_histogram</span>(predictions, <span class="at">game =</span> <span class="dv">4</span>, <span class="at">team=</span><span class="st">"home"</span>, <span class="at">home_team =</span> <span class="st">"América-MG"</span>,</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">away_team =</span> <span class="st">"Atlético-MG"</span>, <span class="at">fill_color =</span> <span class="st">"#82cb79"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-</section>
-<section id="comparando-as-previsões-entre-modelos" class="level2">
-<h2 class="anchored" data-anchor-id="comparando-as-previsões-entre-modelos">Comparando as previsões entre modelos</h2>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Poisson Simlpes</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Binomial Negativa</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Poisson Inflada</a></li></ul>
-<div class="tab-content">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</div>
-<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="campeonato_mineiro_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
