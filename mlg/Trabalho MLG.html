@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Relatorio MLG</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="a_files/libs/clipboard/clipboard.min.js"></script>
+<script src="a_files/libs/quarto-html/quarto.js"></script>
+<script src="a_files/libs/quarto-html/popper.min.js"></script>
+<script src="a_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="a_files/libs/quarto-html/anchor.min.js"></script>
+<link href="a_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="a_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="a_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="a_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="a_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Relatorio MLG</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<h3>Alunos:</h3>
+<p>Arthur Gontijo</p>
+<p>Tomás Bernardes</p>
+
+<section id="apresentação-dos-dados" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Apresentação dos dados</h1>
+<p>O Bando de Dados utilizado nessa análise é uma versão reduzida à observações referentes ao município de Belo Horizonte, do banco de dados do Estudo dos Riscos Cardiovasculares em Adolescentes (ERICA).</p>
+<p>O banco de dados do ERICA possui algo em torno de 500 variáveis, que avaliam as condições de saúde, perfil sócio-econômico e nutricional de estudantes entre 12 e 17 anos de escolas brasileiras, públicas e particulares. Para Belo Horizonte, temos 2530 unidades amostradas em 43 escolas.</p>
+<p>O objetivo desta analise será avaliar o efeito diversos fatores no consumo de alcool entre estes jovens. As variaveis desta analise serão:</p>
+<ul>
+<li><p><em>Variavel Resposta: <strong>catconsbebalcool</strong></em> - Consome bebida alcoólica (Sim, Não)</p></li>
+<li><p><strong>sexo</strong> - Sexo (F, M)</p></li>
+<li><p><strong><em>id_escola</em></strong> - Identificador da escola (43 no total)</p></li>
+<li><p><strong>fuma</strong> - Fuma (Sim, Não)</p></li>
+<li><p><strong>moracpai</strong> - Mora com os pais (Sim, Não)</p></li>
+<li><p><strong>bar_500 | bar_250</strong> - Quantidade de Bares em um raio de 250m | 500m</p></li>
+<li><p><strong>idadecat</strong> - Categoria de Idade (12-13, 14-15, 16-17)</p></li>
+<li><p><strong>horatelacat</strong> - Horas de tela (1 a 7 horas por dia)</p></li>
+<li><p><strong>proxycat</strong> - Indicador socioeconômico (Alto, Médio, Baixo)</p></li>
+<li><p><strong>corcat</strong> - Cor (Branco, Branca, Preto/pardo/amarelo/indígena)</p></li>
+<li><p><strong>ativfiscat</strong> - Atividade física (Inativo, Ativo)</p></li>
+<li><p><strong>deprimido</strong> - Sensação de tristeza nas ultimas duas semanas (0-4 variando entre “Nenhuma” e “Muito mais que de costume”)</p></li>
+</ul>
+<section id="análises-descritivas" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="análises-descritivas"><span class="header-section-number">1.1</span> Análises Descritivas</h2>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="a_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="a_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="a_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="a_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<p>Pelos gráficos, vemos que a proporção de jovens que consome alcool é de 27% e que não identificamos nenhuma interação significativa entre as variaveis</p>
+<p>Um possivel fator que podera afetar a analise dos dados é a forte correlação entre as variaveis bar_X, uma vez que a quantidade de bares em um raio de 250m está incluída quando o raio é de 500m. Esta correlação esta demonstrada no gráfico abaixo</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="a_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="ajustando-modelo" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Ajustando Modelo</h1>
+<section id="modelo-linear-generalizado-frequentista" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="modelo-linear-generalizado-frequentista"><span class="header-section-number">2.1</span> Modelo Linear Generalizado Frequentista</h2>
+<p>Tendo em vista a possível heterogeneidade entre as escolas, vamos definir um modelo linear generalizado misto com efeitos aleatórios para cada.</p>
+<p><span class="math display">\[
+Y_i \mid \mathbf{X}_i \sim \text{Binomial}(1, \mu_i)
+\]</span></p>
+<p><span class="math display">\[
+\text{logit}(\mu_i) = \eta_i
+\]</span></p>
+<p><span class="math display">\[
+\eta_i = \mathbf{X}_i^T \boldsymbol{\beta} + u_i
+\]</span> onde <span class="math inline">\(ui\)</span> representa o efeito aleatório de cada escola</p>
+<p><span class="math display">\[
+u_i \sim N(0, \sigma^2)
+\]</span></p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>console</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(glmmTMB)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">glmmTMB</span>(catconsbebalcool <span class="sc">~</span> sexo <span class="sc">+</span> fuma <span class="sc">+</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                moracpais <span class="sc">+</span> idadecat <span class="sc">+</span> horatelacat <span class="sc">+</span> deprimido <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                proxycat <span class="sc">+</span> ativfiscat <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id_escola),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> logit),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> dta)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Family: binomial  ( logit )
+Formula:          
+catconsbebalcool ~ sexo + fuma + moracpais + idadecat + horatelacat +  
+    deprimido + proxycat + ativfiscat + (1 | id_escola)
+Data: dta
+
+     AIC      BIC   logLik deviance df.resid 
+  2254.1   2338.9  -1112.0   2224.1     2098 
+
+Random effects:
+
+Conditional model:
+ Groups    Name        Variance Std.Dev.
+ id_escola (Intercept) 0.2099   0.4581  
+Number of obs: 2113, groups:  id_escola, 43
+
+Conditional model:
+                                      Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                           -2.23650    0.21367 -10.467  &lt; 2e-16 ***
+sexoMasculino                         -0.17946    0.11630  -1.543 0.122805    
+fumaSim                                1.99754    0.43127   4.632 3.63e-06 ***
+moracpaisSó mãe ou só pai              0.24272    0.11590   2.094 0.036236 *  
+moracpaisNão                           0.53186    0.24412   2.179 0.029351 *  
+idadecat14-15                          0.83287    0.16692   4.990 6.05e-07 ***
+idadecat16-17                          1.25191    0.17744   7.055 1.72e-12 ***
+horatelacat&gt;2hrs                       0.25376    0.11242   2.257 0.023998 *  
+deprimidoNao mais que de costume       0.10886    0.14462   0.753 0.451600    
+deprimidoUm pouco mais que de costume  0.36782    0.14230   2.585 0.009743 ** 
+deprimidoMuito mais que de costume     0.90087    0.19578   4.601 4.20e-06 ***
+proxycatMédio                         -0.38631    0.12147  -3.180 0.001472 ** 
+proxycatBaixo                          0.05285    0.49136   0.108 0.914342    
+ativfiscatAtivo                        0.41631    0.10942   3.805 0.000142 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>out.glm <span class="ot">=</span> <span class="fu">glm</span>(catconsbebalcool <span class="sc">~</span> sexo <span class="sc">+</span> fuma <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                moracpais <span class="sc">+</span> idadecat <span class="sc">+</span> horatelacat <span class="sc">+</span> deprimido <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                proxycat <span class="sc">+</span> corcat <span class="sc">+</span> ativfiscat <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id_escola),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> logit),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> dta)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC do Modelo de Efeitos Fixos:"</span>, <span class="fu">AIC</span>(out.glm), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AIC do Modelo de Efeitos Fixos: 2272.888 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AIC do Modelo de Efeitos Aleatórios:"</span>, <span class="fu">AIC</span>(out))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AIC do Modelo de Efeitos Aleatórios: 2254.094</code></pre>
+</div>
+</div>
+<p>Pode-se observar que o modelo com efeitos aleatórios provou-se melhor que o modelo de efeitos fixos.</p>
+</section>
+<section id="modelo-linear-generalizado-bayesiano" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="modelo-linear-generalizado-bayesiano"><span class="header-section-number">2.2</span> Modelo Linear Generalizado Bayesiano</h2>
+<p>Podemos, ainda, avaliar um modelo bayesiano dado por:</p>
+<p><span class="math display">\[
+Y_i \mid \mathbf{X}_i, u_i \sim \text{Binomial}(1, \mu_i)
+\]</span></p>
+<p><span class="math display">\[
+\text{logit}(\mu_i) = \mathbf{X}_i^T \boldsymbol{\beta} + u_i
+\]</span></p>
+<p>Com as seguintes prioris:</p>
+<p><span class="math display">\[
+\beta_0 \sim N(0,10)
+\]</span></p>
+<p><span class="math display">\[
+\beta_i \sim N(0,2.5)
+\]</span></p>
+<p><span class="math display">\[
+u_i \sim N(0, \sigma)
+\]</span></p>
+<p><span class="math display">\[
+\sigma \sim \text{Half-Cauchy}(0, 4)
+\]</span> Usando o stan por meio do pacote ‘brms’, podemos ajustar o modelo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> <span class="st">"b"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="fl">2.5</span>), <span class="at">class =</span> <span class="st">"Intercept"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># hiperparametros</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">cauchy</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="at">class =</span> <span class="st">"sd"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>out.stan <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> catconsbebalcool <span class="sc">~</span> sexo <span class="sc">+</span> fuma <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    moracpais <span class="sc">+</span> idadecat <span class="sc">+</span> horatelacat <span class="sc">+</span> deprimido <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    proxycat <span class="sc">+</span> ativfiscat <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id_escola),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dta,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">3000</span>, <span class="at">warmup =</span> <span class="dv">1500</span>, <span class="at">chains =</span> <span class="dv">4</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Rcpp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading 'brms' package (version 2.22.0). Useful instructions
+can be found by typing help('brms'). A more detailed introduction
+to the package is available through vignette('brms_overview').</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'brms'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:glmmTMB':
+
+    lognormal</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    ar</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_plot</span>(out.stan, <span class="at">type =</span> <span class="st">"trace"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No divergences to plot.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="a_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Percebemos pelos gráficos que o modelo converge adequadamente.</p>
+</section>
+</section>
+<section id="interpretação-e-comparação" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Interpretação e comparação</h1>
+<p>Plotando o gráfico de odds-ratio de ambos os modelos:</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>freq_conf <span class="ot">&lt;-</span> <span class="fu">confint</span>(out)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>freq_coefs <span class="ot">=</span> freq_conf[,<span class="dv">3</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>freq_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Estimate =</span> freq_conf[,<span class="dv">3</span>],</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Lower =</span> freq_conf[, <span class="dv">1</span>],</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Upper =</span> freq_conf[, <span class="dv">2</span>],</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model =</span> <span class="st">"Frequentista"</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#removendo ultima coluna pra ficar igual</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>freq_data<span class="ot">=</span>freq_data[<span class="sc">-</span><span class="dv">15</span>,]</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>bayes_conf <span class="ot">=</span> <span class="fu">fixef</span>(out.stan)[,<span class="sc">-</span><span class="dv">2</span>]</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>bayes_data <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Estimate =</span> bayes_conf[,<span class="dv">1</span>],</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">Lower =</span> bayes_conf[, <span class="dv">2</span>],</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Upper =</span> bayes_conf[, <span class="dv">3</span>],</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model =</span> <span class="st">"Bayesiano"</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(bayes_data) <span class="ot">=</span> <span class="fu">rownames</span>(freq_data)</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>freq_data[,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rownames</span>(freq_data)</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>bayes_data[,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rownames</span>(bayes_data)</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(freq_data, bayes_data)</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot_data)[<span class="dv">5</span>] <span class="ot">=</span> <span class="st">"Term"</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>plot_data2 <span class="ot">=</span> plot_data</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>plot_data2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">=</span> <span class="fu">exp</span>(plot_data[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data2, <span class="fu">aes</span>(<span class="at">x =</span> Term, <span class="at">y =</span> Estimate, <span class="at">color =</span> Model)) <span class="sc">+</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>), <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Frequentista"</span> <span class="ot">=</span> <span class="st">"coral"</span>, <span class="st">"Bayesiano"</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>)) <span class="sc">+</span> </span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Lower, <span class="at">ymax =</span> Upper), </span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>              <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>), <span class="at">width =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Parâmetros"</span>, <span class="at">y =</span> <span class="st">"Estimativa"</span>, <span class="at">color =</span> <span class="st">"Modelo"</span>) <span class="sc">+</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(Estimate, <span class="dv">2</span>), </span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>               <span class="at">vjust =</span> <span class="fu">ifelse</span>(Model <span class="sc">==</span> <span class="st">"Frequentista"</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>)),  <span class="co"># Conditional vjust</span></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>), </span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="a_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>É possível observar pelo gráfico que as estimativas são muito parecidas entre ambos os modelos, apesar dos intervalos de estimação bayesianos aparentarem uma maior amplitude.</p>
+<p>Com o ajuste dos modelos, é possível observar que diversas variáveis são significativas. Segue abaixo a interpretação de cada variável significativa:</p>
+<p>Com o ajuste dos modelos, é possível observar similaridades em diversas variáveis significativas. Abaixo está a interpretação de cada uma:</p>
+<ul>
+<li><p><strong>Fumar</strong>: Adolescentes que fumam têm 7,37 vezes mais chances de consumir bebida alcoólica em relação aos que não fumam.</p></li>
+<li><p><strong>Morar com os pais</strong>: Caso morar apenas com um dos pais, aumentam-se as chances em 27%, e, caso não more com nenhum dos pais, aumentam-se as chances de consumo em 70%.</p></li>
+<li><p><strong>Idade</strong>: Adolescentes mais velhos (16-17 anos) são os mais propensos a consumirem bebidas, 3,5 vezes mais do que jovens entre 12-13 anos e 1,52 vezes mais do que jovens entre 14-15 anos.</p></li>
+<li><p><strong>Tempo de tela acima de 2 horas por dia</strong>: Adolescentes que passam mais de 2 horas por dia em frente a telas têm 29% mais chances de consumir bebida alcoólica.</p></li>
+<li><p><strong>Depressão</strong>: O grau de depressão de um jovem está fortemente atrelado a uma maior propensão de consumir bebidas alcoólicas, onde um jovem mais deprimido do que o costume possui 2,5 vezes mais chances de consumir álcool.</p></li>
+<li><p><strong>Ser fisicamente ativo</strong>: Adolescentes sedentários possuem uma chance 52% maior de consumir bebidas alcoólicas do que jovens que realizam atividade física.</p></li>
+</ul>
+<p>Podemos avaliar a necessidade do efeito aleatório no modelo comparando-o com um efeito fixo. Utilizaremos o AIC como critério de comparação entre os modelos.</p>
+</section>
+<section id="capacidade-preditiva-do-modelo" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Capacidade preditiva do modelo</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Type 'citation("pROC")' for a citation.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'pROC'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    cov, smooth, var</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>predicted_values <span class="ot">&lt;-</span> <span class="fu">predict</span>(out.stan, <span class="at">newdata =</span> dta)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>pi.hat <span class="ot">=</span> <span class="fu">predict</span>(out,<span class="at">newdata =</span> dta, <span class="at">type=</span><span class="st">'response'</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pROC<span class="sc">::</span><span class="fu">roc</span>(dta<span class="sc">$</span>catconsbebalcool<span class="sc">~</span>pi.hat),<span class="at">print.auc=</span>T,<span class="at">main =</span><span class="st">"ROC Frequentista"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting levels: control = 0, case = 1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting direction: controls &lt; cases</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pROC<span class="sc">::</span><span class="fu">roc</span>(dta<span class="sc">$</span>catconsbebalcool<span class="sc">~</span>predicted_values[,<span class="dv">1</span>]),<span class="at">print.auc=</span>T,<span class="at">main =</span><span class="st">"ROC Bayesiano"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting levels: control = 0, case = 1
+Setting direction: controls &lt; cases</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="a_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Ao comparar o AUC das curvas ROC, o modelo frequentista se mostra ligeiramente melhor que o modelo bayesiano.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="a_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: kableExtra</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'kableExtra' was built under R version 4.4.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'kableExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Accuracy</th>
+<th style="text-align: right;">Precision</th>
+<th style="text-align: right;">Recall</th>
+<th style="text-align: right;">F1_Score</th>
+<th style="text-align: right;">Specificity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Frequentista</td>
+<td style="text-align: right;">75.30</td>
+<td style="text-align: right;">94.04</td>
+<td style="text-align: right;">76.93</td>
+<td style="text-align: right;">84.63</td>
+<td style="text-align: right;">62.86</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bayesiano</td>
+<td style="text-align: right;">75.69</td>
+<td style="text-align: right;">94.71</td>
+<td style="text-align: right;">77.03</td>
+<td style="text-align: right;">84.96</td>
+<td style="text-align: right;">64.73</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Pelas métricas acima, verifica-se que os modelos perfomaram de maneira parecida, entretanto o modelo bayesiano obteve melhores resultados nas demais métricas.</p>
+</section>
+<section id="presupostos-mlg" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Presupostos MLG</h1>
+<section id="vif" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="vif"><span class="header-section-number">5.1</span> VIF</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_collinearity</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Check for Multicollinearity
+
+Low Correlation
+
+        Term  VIF   VIF 95% CI Increased SE Tolerance Tolerance 95% CI
+        sexo 1.12 [1.08, 1.19]         1.06      0.89     [0.84, 0.93]
+        fuma 1.01 [1.00, 5.43]         1.00      0.99     [0.18, 1.00]
+   moracpais 1.07 [1.03, 1.14]         1.03      0.94     [0.88, 0.97]
+    idadecat 1.01 [1.00, 1.34]         1.01      0.99     [0.75, 1.00]
+ horatelacat 1.01 [1.00, 3.00]         1.00      0.99     [0.33, 1.00]
+   deprimido 1.09 [1.05, 1.15]         1.04      0.92     [0.87, 0.95]
+    proxycat 1.06 [1.03, 1.13]         1.03      0.94     [0.88, 0.97]
+  ativfiscat 1.05 [1.02, 1.13]         1.03      0.95     [0.89, 0.98]</code></pre>
+</div>
+</div>
+<p>Não é perceptivel nenhum valor muito elevado do VIF (&gt;5) portanto, a multicolinearidade não está presente.</p>
+</section>
+<section id="pit" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="pit"><span class="header-section-number">5.2</span> PIT</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'DHARMa' was built under R version 4.4.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>simulationOutput <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(out, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>pit_residuals <span class="ot">&lt;-</span> simulationOutput<span class="sc">$</span>scaledResiduals</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>pit_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">residuals =</span> pit_residuals)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>n_obs_p1 <span class="ot">&lt;-</span> <span class="fu">length</span>(pit_residuals)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>n_bins <span class="ot">&lt;-</span> <span class="dv">19</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>expected_p1 <span class="ot">&lt;-</span> n_obs_p1 <span class="sc">/</span> n_bins</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>ci_lower_p1 <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(<span class="fl">0.025</span>, n_obs_p1, <span class="dv">1</span><span class="sc">/</span>n_bins)</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>ci_upper_p1 <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(<span class="fl">0.975</span>, n_obs_p1, <span class="dv">1</span><span class="sc">/</span>n_bins)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pit_df, <span class="fu">aes</span>(<span class="at">x =</span> residuals)) <span class="sc">+</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">20</span>),</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"#ff4203"</span>, </span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(ci_lower_p1, expected_p1, ci_upper_p1),</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"red"</span>),</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="fu">c</span>(<span class="st">"dashed"</span>, <span class="st">"dotted"</span>, <span class="st">"dashed"</span>),</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Residuos PIT (Frequentista)"</span>,</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Resíduos PIT"</span>, </span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequência"</span>) <span class="sc">+</span></span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234567890</span>)</span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>y_rep <span class="ot">&lt;-</span> <span class="fu">posterior_predict</span>(out.stan)</span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>y_obs <span class="ot">&lt;-</span> dta<span class="sc">$</span>catconsbebalcool</span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>pit_residuals_brm <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(y_obs)<span class="sc">-</span><span class="dv">417</span>), <span class="cf">function</span>(i) {</span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y_obs[i] <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>    p0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_rep[, i] <span class="sc">==</span> <span class="dv">0</span>) </span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, p0)             </span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>    p0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_rep[, i] <span class="sc">==</span> <span class="dv">0</span>) </span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">runif</span>(<span class="dv">1</span>, p0, <span class="dv">1</span>)             </span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>pit_brm_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">residuals =</span> pit_residuals_brm)</span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>n_obs_p2 <span class="ot">&lt;-</span> <span class="fu">length</span>(pit_residuals_brm)</span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>expected_p2 <span class="ot">&lt;-</span> n_obs_p2 <span class="sc">/</span> n_bins</span>
+<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>ci_lower_p2 <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(<span class="fl">0.025</span>, n_obs_p2, <span class="dv">1</span><span class="sc">/</span>n_bins)</span>
+<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>ci_upper_p2 <span class="ot">&lt;-</span> <span class="fu">qbinom</span>(<span class="fl">0.975</span>, n_obs_p2, <span class="dv">1</span><span class="sc">/</span>n_bins)</span>
+<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pit_brm_df, <span class="fu">aes</span>(<span class="at">x =</span> residuals)) <span class="sc">+</span></span>
+<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">20</span>), </span>
+<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span>  <span class="st">"#0f3fff"</span>,</span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(ci_lower_p2, expected_p2, ci_upper_p2),</span>
+<span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"red"</span>),</span>
+<span id="cb39-55"><a href="#cb39-55" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="fu">c</span>(<span class="st">"dashed"</span>, <span class="st">"dotted"</span>, <span class="st">"dashed"</span>),</span>
+<span id="cb39-56"><a href="#cb39-56" aria-hidden="true" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb39-57"><a href="#cb39-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PIT Residuals (BRM)"</span>,</span>
+<span id="cb39-58"><a href="#cb39-58" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Resíduos PIT"</span>, </span>
+<span id="cb39-59"><a href="#cb39-59" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequência"</span>) <span class="sc">+</span></span>
+<span id="cb39-60"><a href="#cb39-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb39-61"><a href="#cb39-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-62"><a href="#cb39-62" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2, <span class="at">nrow =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="a_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Pelos histogramas, percebmos que os residuos aparentam serem razoavelmente normais.</p>
+</section>
+<section id="qqplot-residuos-de-pearson" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="qqplot-residuos-de-pearson"><span class="header-section-number">5.3</span> QQplot residuos de pearson</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>y_obs <span class="ot">=</span> dta<span class="sc">$</span>catconsbebalcool</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>y_obs <span class="ot">=</span> <span class="fu">as.numeric</span>(y_obs)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>y_obs[<span class="fu">which</span>(y_obs <span class="sc">==</span> <span class="dv">2</span>)] <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co"># STAN</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>predicted_bayes<span class="ot">&lt;-</span> <span class="fu">predict</span>(out.stan, <span class="at">type =</span> <span class="st">"response"</span>)[, <span class="st">"Estimate"</span>]</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>pearson_residuals_bayes <span class="ot">=</span> (y_obs <span class="sc">-</span> predicted_bayes) <span class="sc">/</span> <span class="fu">sqrt</span>(predicted_bayes <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> predicted_bayes))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in y_obs - predicted_bayes: longer object length is not a multiple of
+shorter object length</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in (y_obs - predicted_bayes)/sqrt(predicted_bayes * (1 -
+predicted_bayes)): longer object length is not a multiple of shorter object
+length</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GLMMTMB</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>predicted_freq <span class="ot">=</span> <span class="fu">predict</span>(out, <span class="at">type=</span><span class="st">"response"</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>pearson_residuals_freq<span class="ot">=</span> (y_obs <span class="sc">-</span> predicted_freq) <span class="sc">/</span> <span class="fu">sqrt</span>(predicted_freq <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> predicted_freq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in y_obs - predicted_freq: longer object length is not a multiple of
+shorter object length</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in (y_obs - predicted_freq)/sqrt(predicted_freq * (1 -
+predicted_freq)): longer object length is not a multiple of shorter object
+length</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(pearson_residuals_freq, <span class="at">main =</span> <span class="st">"Frequentista"</span>, <span class="at">col =</span> <span class="st">"coral"</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(pearson_residuals_freq, <span class="at">col =</span> <span class="st">"#FF502F"</span>)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(pearson_residuals_bayes, <span class="at">main =</span> <span class="st">"Bayesiano"</span>, <span class="at">col =</span> <span class="st">"dodgerblue"</span>)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(pearson_residuals_bayes, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="a_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Pelos gráficos vemos que, apesar das similaridades, os modelos não aparentam serem normal. O que demonstra a não adequabilidade dos residuos de pearson para modelos logisticos</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
